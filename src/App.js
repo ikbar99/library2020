@@ -6,11 +6,31 @@ import Routes from "./routes";
 import "./App.css";
 
 class App extends Component {
+  state = {
+    books: [],
+    isLoading: false,
+  };
+  componentDidMount() {
+    const context = this;
+    this.setState({isLoading: true}, () =>
+      axios.get("https://calm-dusk-11524.herokuapp.com/library").then(res => {
+        console.log(res);
+        context.setState({
+          books: res.data,
+          isLoading: false,
+        })
+      }
+      )
+    )
+  }
   render() {
     return (
       <div className="App">
         <Header />
-        <div className="container" style={{ paddingTop: '84px', paddingBottom: '24px' }}>
+        <div
+          className="container"
+          style={{ paddingTop: "84px", paddingBottom: "24px" }}
+        >
           <Routes />
         </div>{" "}
       </div>
